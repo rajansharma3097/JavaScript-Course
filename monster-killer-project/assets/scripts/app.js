@@ -12,11 +12,22 @@ const LOG_EVENT_MONSTER_ATTACK = "MONSTER_ATTACK";
 const LOG_EVENT_PLAYER_HEAL = "PLAYER_HEAL";
 const LOG_EVENT_GAME_OVER = "GAME_OVER";
 
-const enteredValue = prompt('Maximum life for you and the monster', '100');
 
-let chosenMaxLife = +enteredValue;
 
-if (isNaN(chosenMaxLife) || chosenMaxLife <= 0) {
+function getMaxLifeValues() {
+    const enteredValue = prompt('Maximum life for you and the monster', '100');
+    const parseValue = +enteredValue;
+    if (isNaN(parseValue) || parseValue <= 0) {
+        throw { message: 'Invalid user input, not a number!!' }
+    }
+    return parseValue;
+}
+
+let chosenMaxLife;
+try {
+    chosenMaxLife = getMaxLifeValues();
+} catch (error) {
+    console.log(error);
     chosenMaxLife = 100;
 }
 
@@ -34,6 +45,7 @@ function writeToLogs(event, value, monsterHealth, playerHealth) {
         finalMonsterHealth: monsterHealth,
         finalPlayerHealth: playerHealth
     };
+
     if (event === LOG_EVENT_PLAYER_ATTACK) {
         logEntry.target = 'MONSTER';
     } else if (event === LOG_EVENT_PLAYER_STRONG_ATTACK) {
@@ -107,15 +119,15 @@ function endRound() {
 }
 
 function attackMonster(mode) {
-    let maxDamage;
-    let logEvent;
-    if (mode === MODE_ATTACK) {
-        maxDamage = ATTACK_VALUE;
-        logEvent = LOG_EVENT_PLAYER_ATTACK;
-    } else if (mode === MODE_STRONG_ATTACK) {
-        maxDamage = STRONG_ATTACK_VALUE;
-        logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK;
-    }
+    const maxDamage = mode === MODE_ATTACK ? ATTACK_VALUE : STRONG_ATTACK_VALUE;
+    const logEvent = mode === LOG_EVENT_PLAYER_ATTACK ? ATTACK_VALUE : LOG_EVENT_PLAYER_STRONG_ATTACK;
+    // if (mode === MODE_ATTACK) {
+    //     maxDamage = ATTACK_VALUE;
+    //     logEvent = LOG_EVENT_PLAYER_ATTACK;
+    // } else if (mode === MODE_STRONG_ATTACK) {
+    //     maxDamage = STRONG_ATTACK_VALUE;
+    //     logEvent = LOG_EVENT_PLAYER_STRONG_ATTACK;
+    // }
     const damage = dealMonsterDamage(maxDamage);
     currentMonsterHealth -= damage;
     writeToLogs(logEvent, damage, currentMonsterHealth, currentPlayerHealth);
@@ -145,7 +157,18 @@ function healPlayerHandler() {
 }
 
 function printLogHandler() {
-    console.log(battleLog);
+    for (let i = 0; i < battleLog.length; i++) {
+        console.log("------");
+    }
+
+    for (const iterator of battleLog) {
+        for (const key in iterator) {
+            console.log(key);
+            console.log(iterator[key]);
+        }
+    }
+
+    // console.log(battleLog);
 }
 
 attackBtn.addEventListener('click', attackHandler);
