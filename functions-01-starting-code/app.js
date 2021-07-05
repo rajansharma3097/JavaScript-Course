@@ -63,3 +63,34 @@ startGameBtn.addEventListener('click', function () {
     alert(message);
     gameIsRunning = false;
 });
+
+// not related to game
+
+const sumUp = (resultHandler, ...numbers) => {
+
+    const validateNumber = (number) => {
+        return isNaN(number) ? 0 : number;
+    };
+
+    let sum = 0;
+    for (const num of numbers) {
+        sum += validateNumber(num);
+    }
+    resultHandler(num);
+}
+
+const sumUp = (resultHandler, ...numbers) => {
+
+    let sum = 0;
+    for (const num of numbers) {
+        sum -= num;
+    }
+    resultHandler(sum);
+}
+
+const showResult = (result) => {
+    alert("The result after adding all numbers is: " + result);
+}
+
+console.log(showResult, sumUp(45, 6, 78, 9, 'dfgdf', 7));
+
