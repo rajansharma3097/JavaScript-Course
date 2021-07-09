@@ -1,14 +1,8 @@
-const h1 = document.getElementById('main-title');
+const section = document.querySelector('section');
+const button = document.querySelector('button');
 
-h1.textContent = "Some New Title!!";
-h1.style.color = "white";
-h1.style.backgroundColor = "black";
+section.className = "red-bg";
 
-const lastLi = document.querySelector("li:last-of-type");
-lastLi.textContent = lastLi.textContent + " (Changed!)";
-
-const listItemElements = document.querySelectorAll('li');
-
-for (const listItemEl of listItemElements) {
-    console.dir(listItemEl);
-}
+button.addEventListener('click', () => {
+    section.classList.toggle('invisible');
+});
