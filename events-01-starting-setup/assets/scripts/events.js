@@ -1,4 +1,4 @@
-const buttons = document.querySelectorAll('button');
+const button = document.querySelector('button');
 
 const buttonClickHandler = event => {
   event.target.disabled = true;
@@ -13,9 +13,9 @@ const buttonClickHandler = event => {
 //   button.removeEventListener('click', buttonClickHandler);
 // }, 2000);
 
-buttons.forEach(button => {
-  button.addEventListener('click', buttonClickHandler);
-});
+// buttons.forEach(button => {
+//   button.addEventListener('click', buttonClickHandler);
+// });
 
 const form = document.querySelector('form');
 
@@ -24,3 +24,29 @@ form.addEventListener('submit', event => {
   console.log(event);
 });
 
+const div = document.querySelector('div');
+
+div.addEventListener('click', event => {
+  console.log("DIV");
+  console.log(event);
+});
+
+button.addEventListener('click', event => {
+  event.stopPropagation();
+  console.log("Button");
+  console.log(event);
+});
+
+const listItems = document.querySelectorAll('li');
+
+const list = document.querySelector('ul');
+
+// listItems.forEach(listItem => {
+//   listItem.addEventListener('click', event => {
+//     event.target.classList.toggle('highlight');
+//   })
+// });
+
+list.addEventListener('click', event => {
+  event.target.classList.toggle('highlight');
+})
